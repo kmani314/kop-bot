@@ -17,7 +17,7 @@ void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-  drive = new frc::RobotDrive(leftFrontMotor, rightFrontMotor);
+  drive = new frc::RobotDrive(leftFront, rightFront);
   
 }
 
@@ -63,10 +63,11 @@ void Robot::AutonomousPeriodic() {
   }
 }
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() {
+    std::cout << "Teleop Started" << std::endl;
+}
 
 void Robot::TeleopPeriodic() {
-    std::cout << "Teleop Started" << std::endl;
      drive->ArcadeDrive(stick, false);
 }
 
