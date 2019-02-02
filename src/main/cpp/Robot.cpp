@@ -18,7 +18,12 @@ void Robot::RobotInit() {
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
   drive = new frc::RobotDrive(leftFront, rightFront);
-  
+  leftBack->Follow(*leftFront);
+  rightBack->Follow(*rightFront);
+  leftFront->SetInverted(true);
+  leftBack->SetInverted(true);
+  rightFront->SetInverted(true);
+  rightBack->SetInverted(true);
 }
 
 /**
@@ -49,7 +54,6 @@ void Robot::AutonomousInit() {
   std::cout << "Auto selected: " << m_autoSelected << std::endl;
 
   if (m_autoSelected == kAutoNameCustom) {
-    // Custom Auto goes here
   } else {
     // Default Auto goes here
   }
