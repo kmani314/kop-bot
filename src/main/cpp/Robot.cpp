@@ -11,10 +11,14 @@
 
 #include <frc/smartdashboard/SmartDashboard.h>
 
+#include <frc/RobotDrive.h>
+
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+  drive = new frc::RobotDrive(leftFrontMotor, rightFrontMotor);
+  
 }
 
 /**
@@ -61,7 +65,10 @@ void Robot::AutonomousPeriodic() {
 
 void Robot::TeleopInit() {}
 
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+    std::cout << "Teleop Started" << std::endl;
+     drive->ArcadeDrive(stick, false);
+}
 
 void Robot::TestPeriodic() {}
 
