@@ -16,14 +16,27 @@
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
+
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-  drive = new frc::RobotDrive(leftFront, rightFront);
-  leftBack->Follow(*leftFront);
-  rightBack->Follow(*rightFront);
-  leftFront->SetInverted(true);
-  leftBack->SetInverted(true);
-  rightFront->SetInverted(true);
-  rightBack->SetInverted(true);
+
+  drive = new frc::RobotDrive(leftFrontMotor, rightFrontMotor);
+
+
+  ctre::phoenix::motorcontrol::FeedbackDevice quadEncoder = QuadEncoder;
+
+  rightFrontMotor->ConfigSelectedFeedbackSensor(quadEncoder, 0, 0);
+  leftFrontMotor->ConfigSelectedFeedbackSensor(quadEncoder, 0, 0);
+  
+  leftBackMotor->Follow(*leftFrontMotor);
+  rightBackMotor->Follow(*rightFrontMotor);
+
+  leftFrontMotor->SetInverted(true);
+  leftBackMotor->SetInverted(true);
+
+  rightFrontMotor->SetInverted(true);
+  rightBackMotor->SetInverted(true);
+  
+ 
 }
 
 /**
@@ -72,7 +85,8 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-     drive->ArcadeDrive(stick, false);
+    //leftFrontMotor->Set()
+    //righFrontMotor->Set()
 }
 
 void Robot::TestPeriodic() {}

@@ -14,6 +14,7 @@
 #include <ctre/Phoenix.h>
 #include <frc/Joystick.h>
 #include <frc/RobotDrive.h>
+#include <frc/Encoder.h>
 
 class Robot : public frc::TimedRobot {
  public:
@@ -25,16 +26,16 @@ class Robot : public frc::TimedRobot {
   void TeleopPeriodic() override;
   void TestPeriodic() override;
   const int joystickID = 0;
-  const int leftFrontMotor = 10;
-  const int leftBackMotor = 5;
-  const int rightFrontMotor = 2;
-  const int rightBackMotor = 6;
+  const int leftFrontID = 10;
+  const int leftBackID = 5;
+  const int rightFrontID = 2;
+  const int rightBackID = 6;
 
  private:
-  WPI_TalonSRX* leftFront = new WPI_TalonSRX(leftFrontMotor);
-  WPI_TalonSRX* rightFront = new WPI_TalonSRX(rightFrontMotor);
-  WPI_TalonSRX* leftBack = new WPI_TalonSRX(leftBackMotor);
-  WPI_TalonSRX* rightBack = new WPI_TalonSRX(rightBackMotor);
+  WPI_TalonSRX* leftFrontMotor = new WPI_TalonSRX(leftFrontID);
+  WPI_TalonSRX* rightFrontMotor = new WPI_TalonSRX(rightFrontID);
+  WPI_TalonSRX* leftBackMotor = new WPI_TalonSRX(leftBackID);
+  WPI_TalonSRX* rightBackMotor = new WPI_TalonSRX(rightBackID);
   frc::Joystick* stick = new frc::Joystick(joystickID);
   frc::RobotDrive *drive;
   frc::SendableChooser<std::string> m_chooser;
