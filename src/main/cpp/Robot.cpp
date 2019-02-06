@@ -21,7 +21,6 @@ void Robot::RobotInit() {
 
   drive = new frc::RobotDrive(leftFrontMotor, rightFrontMotor);
 
-
   ctre::phoenix::motorcontrol::FeedbackDevice quadEncoder = QuadEncoder;
 
   rightFrontMotor->ConfigSelectedFeedbackSensor(quadEncoder, 0, 0);
@@ -82,11 +81,13 @@ void Robot::AutonomousPeriodic() {
 
 void Robot::TeleopInit() {
     std::cout << "Teleop Started" << std::endl;
+    leftFrontMotor->Set(ctre::phoenix::motorcontrol::ControlMode::Position, fiveFeetTicks);
+    rightFrontMotor->Set(ctre::phoenix::motorcontrol::ControlMode::Position, fiveFeetTicks);
+
 }
 
 void Robot::TeleopPeriodic() {
-    //leftFrontMotor->Set()
-    //righFrontMotor->Set()
+
 }
 
 void Robot::TestPeriodic() {}
