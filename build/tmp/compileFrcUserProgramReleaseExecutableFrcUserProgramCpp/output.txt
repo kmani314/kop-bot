@@ -1,0 +1,13 @@
+See file:///C:/Users/Rohit/Desktop/FRC%20WORKSPACE/kop-bot/build/tmp/compileFrcUserProgramReleaseExecutableFrcUserProgramCpp/output.txt for all output for compileFrcUserProgramReleaseExecutableFrcUserProgramCpp.
+compiling Robot.cpp successful.
+C:\Users\Rohit\Desktop\FRC WORKSPACE\kop-bot\src\main\cpp\Robot.cpp: In member function 'virtual void Robot::RobotInit()':
+C:\Users\Rohit\Desktop\FRC WORKSPACE\kop-bot\src\main\cpp\Robot.cpp:22:62: warning: 'frc::RobotDrive::RobotDrive(frc::SpeedController*, frc::SpeedController*)' is deprecated: Use DifferentialDrive or MecanumDrive classes instead. [-Wdeprecated-declarations]
+   drive = new frc::RobotDrive(leftFrontMotor, rightFrontMotor);
+                                                              ^
+In file included from C:\Users\Rohit\Desktop\FRC WORKSPACE\kop-bot\src\main\include/Robot.h:16:0,
+                 from C:\Users\Rohit\Desktop\FRC WORKSPACE\kop-bot\src\main\cpp\Robot.cpp:8:
+C:\Users\Rohit\Desktop\FRC WORKSPACE\kop-bot\build\tmp\expandedArchives\wpilibc-cpp-2019.2.1-headers.zip_c5f7002a6c1dfda8aa2899e2594d01fe/frc/RobotDrive.h:91:3: note: declared here
+   RobotDrive(SpeedController* leftMotor, SpeedController* rightMotor);
+   ^~~~~~~~~~
+
+Finished compileFrcUserProgramReleaseExecutableFrcUserProgramCpp, see full log file:///C:/Users/Rohit/Desktop/FRC%20WORKSPACE/kop-bot/build/tmp/compileFrcUserProgramReleaseExecutableFrcUserProgramCpp/output.txt.

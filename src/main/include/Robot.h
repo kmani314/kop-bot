@@ -26,10 +26,10 @@ class Robot : public frc::TimedRobot {
   void TeleopPeriodic() override;
   void TestPeriodic() override;
   const int joystickID = 0;
-  const int leftFrontID = 10;
-  const int leftBackID = 5;
+  const int leftFrontID = 1;
+  const int leftBackID = 8;
   const int rightFrontID = 2;
-  const int rightBackID = 6;
+  const int rightBackID = 10;
   const double fiveFeetTicks = 13037.9729381;
  private:
   WPI_TalonSRX* leftFrontMotor = new WPI_TalonSRX(leftFrontID);
