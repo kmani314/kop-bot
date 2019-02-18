@@ -13,27 +13,33 @@
 
 #include <frc/RobotDrive.h>
 
+#include <frc/DriverStation.h>
+
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
 
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-  drive = new frc::RobotDrive(leftFrontMotor, rightFrontMotor);
+  //drive = new frc::RobotDrive(leftFrontMotor, rightFrontMotor);
 
   ctre::phoenix::motorcontrol::FeedbackDevice quadEncoder = QuadEncoder;
 
-  rightFrontMotor->ConfigSelectedFeedbackSensor(quadEncoder, 0, 0);
-  leftFrontMotor->ConfigSelectedFeedbackSensor(quadEncoder, 0, 0);
+  rightBackMotor->ConfigSelectedFeedbackSensor(quadEncoder, 0, 0);
+  leftBackMotor->ConfigSelectedFeedbackSensor(quadEncoder, 0, 0);
+   
+  rightBackMotor->SetSensorPhase(true);
+  leftBackMotor->SetSensorPhase(true);
   
-  leftBackMotor->Follow(*leftFrontMotor);
-  rightBackMotor->Follow(*rightFrontMotor);
+  rightBackMotor->SetSelectedSensorPosition(0, 0, 0);
+  leftBackMotor->SetSelectedSensorPosition(0, 0, 0);
 
-  leftFrontMotor->SetInverted(true);
-  leftBackMotor->SetInverted(true);
+  leftFrontMotor->Follow(*leftBackMotor);
+  rightFrontMotor->Follow(*rightBackMotor);
 
   rightFrontMotor->SetInverted(true);
   rightBackMotor->SetInverted(true);
+
   
  
 }
@@ -80,14 +86,18 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-    std::cout << "Teleop Started" << std::endl;
-    leftFrontMotor->Set(ctre::phoenix::motorcontrol::ControlMode::Position, fiveFeetTicks);
-    rightFrontMotor->Set(ctre::phoenix::motorcontrol::ControlMode::Position, fiveFeetTicks);
+    frc::DriverStation::ReportError("Started Moving.");
+    
+    rightBackMotor->SetSelectedSensorPosition(0, 0, 0);
+    leftBackMotor->SetSelectedSensorPosition(0, 0, 0);
 
+    leftBackMotor->Set(ctre::phoenix::motorcontrol::ControlMode::Position, fiveFeetTicks);
+    rightBackMotor->Set(ctre::phoenix::motorcontrol::ControlMode::Position, fiveFeetTicks);
 }
 
 void Robot::TeleopPeriodic() {
-
+    frc::DriverStation::ReportError("Left: " + std::to_string(leftBackMotor->GetSelectedSensorPosition()));
+    frc::DriverStation::ReportError("Right: " + std::to_string(rightBackMotor->GetSelectedSensorPosition()));
 }
 
 void Robot::TestPeriodic() {}

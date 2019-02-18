@@ -37,7 +37,7 @@ class Robot : public frc::TimedRobot {
   WPI_TalonSRX* leftBackMotor = new WPI_TalonSRX(leftBackID);
   WPI_TalonSRX* rightBackMotor = new WPI_TalonSRX(rightBackID);
   frc::Joystick* stick = new frc::Joystick(joystickID);
-  frc::RobotDrive *drive;
+  //frc::RobotDrive *drive;
   frc::SendableChooser<std::string> m_chooser;
   const std::string kAutoNameDefault = "Default";
   const std::string kAutoNameCustom = "My Auto";
