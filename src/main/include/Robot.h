@@ -15,6 +15,8 @@
 #include <frc/Joystick.h>
 #include <frc/RobotDrive.h>
 #include <frc/Encoder.h>
+#include <frc/Timer.h>
+#include <MotionProfile.h>
 
 class Robot : public frc::TimedRobot {
  public:
@@ -37,7 +39,11 @@ class Robot : public frc::TimedRobot {
   WPI_TalonSRX* leftBackMotor = new WPI_TalonSRX(leftBackID);
   WPI_TalonSRX* rightBackMotor = new WPI_TalonSRX(rightBackID);
   frc::Joystick* stick = new frc::Joystick(joystickID);
+  frc::Timer* timer;
+  motionProfiler* motionProfile;
+  
   //frc::RobotDrive *drive;
+
   frc::SendableChooser<std::string> m_chooser;
   const std::string kAutoNameDefault = "Default";
   const std::string kAutoNameCustom = "My Auto";

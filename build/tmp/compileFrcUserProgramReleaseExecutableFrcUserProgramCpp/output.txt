@@ -1,4 +1,6 @@
 See file:///Users/Krishna/kop-bot/build/tmp/compileFrcUserProgramReleaseExecutableFrcUserProgramCpp/output.txt for all output for compileFrcUserProgramReleaseExecutableFrcUserProgramCpp.
+compiling MotionProfile.cpp successful.
+
 compiling Robot.cpp successful.
 
 Finished compileFrcUserProgramReleaseExecutableFrcUserProgramCpp, see full log file:///Users/Krishna/kop-bot/build/tmp/compileFrcUserProgramReleaseExecutableFrcUserProgramCpp/output.txt.
