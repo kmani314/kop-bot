@@ -1,5 +1,3 @@
-
-
 #ifndef MOTION_PROFILE_H
 #define MOTION_PROFILE_H
 
@@ -9,12 +7,15 @@ class motionProfiler {
     double accel;
     double maxSpeed;
     double finalPos;
+
+    double timeToLinear; // time it takes to accelerate up to max speed
+    double timeToDecel; // time spent at max speed until decel
+    double timeToStop;
     
     public:
-
     motionProfiler(double _accel, double _maxSpeed, double _finalPos);
+
     double getValue(frc::Timer* timer);
-    
 
 };
 
