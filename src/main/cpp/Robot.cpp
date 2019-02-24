@@ -28,6 +28,8 @@ void Robot::RobotInit() {
   
   timer = new frc::Timer();
 
+  motionProfile = new motionProfiler(59885.88084, 78228, fiveFeetTicks); // Note: These values must be in terms of encoder ticks and seconds.
+
   ctre::phoenix::motorcontrol::FeedbackDevice quadEncoder = QuadEncoder;
 
   rightBackMotor->ConfigSelectedFeedbackSensor(quadEncoder, 0, 0);
@@ -71,14 +73,25 @@ void Robot::RobotPeriodic() {}
  * make sure to add them to the chooser code above as well.
  */
 void Robot::AutonomousInit() {
-  std::cout << "Auto selected: " << m_autoSelected << std::endl;
+  frc::DriverStation::ReportError("Motion Profiling Selected. Starting Timer...");
+  rightBackMotor->SetSelectedSensorPosition(0, 0, 0);
+  leftBackMotor->SetSelectedSensorPosition(0, 0, 0);
+  
   timer->Reset();
-  timer->Start();
 
+  std::cout<< "Timer Set." << std::endl;
+
+  timer->Start();
   
 }
 
 void Robot::AutonomousPeriodic() {
+  double value = motionProfile->getValue(timer);
+  frc::DriverStation::ReportError(std::to_string(value));
+  
+  leftBackMotor->Set(ctre::phoenix::motorcontrol::ControlMode::Position, value);
+  rightBackMotor->Set(ctre::phoenix::motorcontrol::ControlMode::Position, value);
+
 }
 
 void Robot::TeleopInit() {

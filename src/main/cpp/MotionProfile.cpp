@@ -1,4 +1,5 @@
 #include <iostream>
+
 #include <math.h>
 
 #include "MotionProfile.h"
@@ -25,14 +26,16 @@ motionProfiler::motionProfiler(double _accel, double _maxSpeed, double _finalPos
     */
 
     timeToDecel = ((finalPos - (accel*(pow(timeToLinear, 2.0))))/maxSpeed); // shift it sideways with the acceleration portion
-
+     if(timeToDecel <= 0) { // is there even a linear phase?
+        timeToDecel = 0;
+        timeToLinear = sqrt(finalPos/accel);
+        maxSpeed = accel*timeToLinear;
+    }
     /*
     The time we should be at the end is defined as the two times the time spent accel/decel (assuming symmetric acceleration and deceleration)
     plus the time we spent in the linear phase
     */
     timeToStop = 2*timeToLinear + timeToDecel;
-	std::cout << "decel: " << timeToDecel << std::endl;
-	std::cout << "stop: " << timeToStop << std::endl;
 }
 
 double motionProfiler::getValue(frc::Timer* timer) {
@@ -46,7 +49,7 @@ double motionProfiler::getValue(frc::Timer* timer) {
         // If we are in linear, return the line Vmax*t + distance when we stopped accelerating	
         return (maxSpeed*(timer->Get() - timeToLinear)) + 0.5*accel*pow(timeToLinear, 2.0);
 
-    } else if(timer->Get() >= (timeToDecel + timeToLinear) && timer->Get() < timeToStop) {
+    } else if(timer->Get() > (timeToDecel + timeToLinear) && timer->Get() < timeToStop) {
         
 		// If we should be decelerating, return the inverse of the accel curve plus the distance we have already travelled
         
@@ -62,7 +65,6 @@ double motionProfiler::getValue(frc::Timer* timer) {
 		return (0.5*accel*pow(timeToLinear, 2.0)) + (maxSpeed*timeToDecel) + (maxSpeed*(timer->Get() - (timeToLinear + timeToDecel))) - 0.5*accel*pow(timer->Get() - (timeToLinear + timeToDecel), 2.0);
 
     }
-	
 
 	return finalPos;
 
