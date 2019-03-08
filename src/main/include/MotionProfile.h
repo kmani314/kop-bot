@@ -15,6 +15,8 @@ class motionProfiler {
     public:
     motionProfiler(double _accel, double _maxSpeed, double _finalPos);
 
+    double getFinalPos();
+    
     double getValue(frc::Timer* timer);
 
 };

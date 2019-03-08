@@ -17,6 +17,19 @@
 
 
 
+void moveUntilFinish(WPI_TalonSRX* leftMotor, WPI_TalonSRX* rightMotor, frc::Timer* timer, motionProfiler* motion) {
+    frc::DriverStation::ReportError("Motion Started");
+
+    while(motion->getValue(timer) < motion->getFinalPos()) {
+        double value = motion->getValue(timer);
+
+        leftMotor->Set(ctre::phoenix::motorcontrol::ControlMode::Position, value);
+
+        rightMotor->Set(ctre::phoenix::motorcontrol::ControlMode::Position, value);
+
+    }
+    
+}
 
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
@@ -28,7 +41,6 @@ void Robot::RobotInit() {
   
   timer = new frc::Timer();
 
-  motionProfile = new motionProfiler(59885.88084, 78228, fiveFeetTicks); // Note: These values must be in terms of encoder ticks and seconds.
 
   ctre::phoenix::motorcontrol::FeedbackDevice quadEncoder = QuadEncoder;
 
@@ -46,9 +58,6 @@ void Robot::RobotInit() {
 
   rightFrontMotor->SetInverted(true);
   rightBackMotor->SetInverted(true);
-  
-  
- 
 }
 
 /**
@@ -80,18 +89,50 @@ void Robot::AutonomousInit() {
   timer->Reset();
 
   std::cout<< "Timer Set." << std::endl;
-
-  timer->Start();
-  
 }
 
 void Robot::AutonomousPeriodic() {
-  double value = motionProfile->getValue(timer);
-  frc::DriverStation::ReportError(std::to_string(value));
   
-  leftBackMotor->Set(ctre::phoenix::motorcontrol::ControlMode::Position, value);
-  rightBackMotor->Set(ctre::phoenix::motorcontrol::ControlMode::Position, value);
+  // double value = motionProfile->getValue(timer);
+  // frc::DriverStation::ReportError(std::to_string(value));
+  if(stick->GetRawButton(3)) {
+    frc::DriverStation::ReportError("Button \'3\' Pressed.");
 
+    timer->Reset();
+
+    leftBackMotor->SetSelectedSensorPosition(0, 0, 0);
+    rightBackMotor->SetSelectedSensorPosition(0, 0, 0);
+
+    double turnRadius = 10; // this is in feet for now
+    double turnAngle = 90; // this is in degrees
+    bool direction = true; // right is true, left is false
+    double robotWidth = 2.21; // this is also in feet for now
+
+   	float ticksPerFeet = 2607.6;
+
+    double outsideDistance = (turnAngle/360)*(2*(turnRadius + robotWidth)*3.1415); // The outside distance is the fraction that the sector angle is of a circle times 2πr
+
+    motionProfiler* motionProfile = new motionProfiler(59885.88084, 78828, outsideDistance*ticksPerFeet);
+
+    double insideWidth = turnRadius - robotWidth;
+    
+	double proportion = std::isinf(insideWidth / turnRadius) ? 0 : insideWidth / turnRadius;
+
+    timer->Start();
+
+    while(motionProfile->getValue(timer) < motionProfile->getFinalPos()) {
+        double value = motionProfile->getValue(timer);
+        double insideVal = value * proportion;
+
+        if(direction) {
+            leftBackMotor->Set(value);
+            rightBackMotor->Set(insideVal);
+        } else {
+            rightBackMotor->Set(value);
+            leftBackMotor->Set(insideVal);
+        }
+    }    
+  }
 }
 
 void Robot::TeleopInit() {

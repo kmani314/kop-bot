@@ -27,6 +27,7 @@ class Robot : public frc::TimedRobot {
   void TeleopInit() override;
   void TeleopPeriodic() override;
   void TestPeriodic() override;
+
   const int joystickID = 0;
   const int leftFrontID = 1;
   const int leftBackID = 8;

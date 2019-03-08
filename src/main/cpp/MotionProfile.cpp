@@ -37,7 +37,9 @@ motionProfiler::motionProfiler(double _accel, double _maxSpeed, double _finalPos
     */
     timeToStop = 2*timeToLinear + timeToDecel;
 }
-
+double motionProfiler::getFinalPos() {
+    return finalPos;
+}
 double motionProfiler::getValue(frc::Timer* timer) {
     if(timer->Get() <= timeToLinear) {
         
